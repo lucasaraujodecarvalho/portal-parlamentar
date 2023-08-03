@@ -1,20 +1,21 @@
 package com.example.portalparlamentar.controller;
 
 import com.example.portalparlamentar.models.Deputado;
+import com.example.portalparlamentar.services.DeputadoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-@RestController
+@Controller
 @RequestMapping("/deputado")
 public class DeputadoController {
 
-    @RequestMapping("/listar-deputados")
+    @Autowired
+    private DeputadoService deputadoService;
+
+    @GetMapping("/listar-deputados")
     public Deputado listarDeputados() {
-        String api = "https://dadosabertos.camara.leg.br/api/v2/";
-        String uri = api + "deputados";
-        RestTemplate restTemplate = new RestTemplate();
-        System.out.println(uri);
-        return restTemplate.getForObject(uri, Deputado.class);
+        return deputadoService.getDeputados();
     }
 }
