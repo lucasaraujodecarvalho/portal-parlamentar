@@ -13,7 +13,12 @@ public class DeputadoServiceImpl implements DeputadoService {
     private DeputadoRepositoryImpl repository;
 
     @Override
-    public Deputado getDeputados() {
-        return repository.getDeputado();
+    public Deputado listDeputados() {
+        return repository.listDeputados();
+    }
+
+    @Override
+    public Deputado getDeputado(Integer idDeputado) {
+        return repository.getDeputado(idDeputado);
     }
 }

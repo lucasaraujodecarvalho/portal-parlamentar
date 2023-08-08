@@ -4,5 +4,7 @@ import com.example.portalparlamentar.models.Deputado;
 
 public interface DeputadoRepository {
 
-    Deputado getDeputado();
+    Deputado listDeputados();
+
+    Deputado getDeputado(Integer idDeputado);
 }
