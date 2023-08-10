@@ -1,15 +1,16 @@
 package com.example.portalparlamentar.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Deputado {
 
-    private ArrayList<Deputado> dados = new ArrayList<>();
     private String email;
     private Integer id;
     private Integer idLegislatura;
