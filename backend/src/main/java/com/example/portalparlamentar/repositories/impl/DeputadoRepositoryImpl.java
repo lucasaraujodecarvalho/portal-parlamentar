@@ -1,7 +1,7 @@
 package com.example.portalparlamentar.repositories.impl;
 
 import com.example.portalparlamentar.models.Deputado;
-import com.example.portalparlamentar.models.DeputadoExpenses;
+import com.example.portalparlamentar.models.DeputadoDespesas;
 import com.example.portalparlamentar.repositories.DeputadoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,7 +33,7 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
 //        return List.of(objectMapper.readValue(json, Deputado[].class));
     }
 
-    public Deputado getDeputado(Integer idDeputado) {
+    public Deputado recuperarDeputado(Integer idDeputado) {
         RestTemplate restTemplate = new RestTemplate();
         String url = ENDPOINT_URL + "deputados" + "/{id}";
         Map<String, Integer> uriParams = new HashMap<>();
@@ -44,7 +44,7 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
     }
 
     @Override
-    public List<DeputadoExpenses> getExpensesDeputados(Integer idDeputado) throws JsonProcessingException {
+    public List<DeputadoDespesas> recuperarDespesasDoDeputado(Integer idDeputado) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
         String url = ENDPOINT_URL + "deputados/{id}/despesas";

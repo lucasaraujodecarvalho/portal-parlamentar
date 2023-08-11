@@ -1,7 +1,7 @@
 package com.example.portalparlamentar.controller;
 
 import com.example.portalparlamentar.models.Deputado;
-import com.example.portalparlamentar.models.DeputadoExpenses;
+import com.example.portalparlamentar.models.DeputadoDespesas;
 import com.example.portalparlamentar.services.DeputadoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +20,20 @@ public class DeputadoController {
     @Autowired
     private DeputadoService deputadoService;
 
-    @GetMapping("/list-deputados")
-    public ResponseEntity<List<Deputado>> listDeputados() throws JsonProcessingException {
+    @GetMapping("/lista-deputados")
+    public ResponseEntity<List<Deputado>> listaDeputados() throws JsonProcessingException {
         List<Deputado> deputado = deputadoService.listDeputados();
         return ResponseEntity.ok().body(deputado);
     }
 
-    @GetMapping("/get-deputado/{id}")
-    public ResponseEntity<Deputado> getDeputado(@PathVariable("id") Integer idDeputado) {
-        return ResponseEntity.ok().body(deputadoService.getDeputado(idDeputado));
+    @GetMapping("/recuperar-deputado/{id}")
+    public ResponseEntity<Deputado> recuperarDeputado(@PathVariable("id") Integer idDeputado) {
+        return ResponseEntity.ok().body(deputadoService.recuperarDeputado(idDeputado));
     }
 
-    @GetMapping("/get-deputado-expenses/{id}")
-    public ResponseEntity<List<DeputadoExpenses>> getExpensesDeputados(@PathVariable("id")Integer idDeputado) throws JsonProcessingException {
-        List<DeputadoExpenses> deputadoDespesas = deputadoService.getExpensesDeputados(idDeputado);
+    @GetMapping("/deputado-despesas/{id}")
+    public ResponseEntity<List<DeputadoDespesas>> recuperarDespesasDoDeputado(@PathVariable("id")Integer idDeputado) throws JsonProcessingException {
+        List<DeputadoDespesas> deputadoDespesas = deputadoService.recuperarDespesasDoDeputado(idDeputado);
         return ResponseEntity.ok().body(deputadoDespesas);
     }
 

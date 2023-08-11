@@ -1,7 +1,7 @@
 package com.example.portalparlamentar.services.impl;
 
 import com.example.portalparlamentar.models.Deputado;
-import com.example.portalparlamentar.models.DeputadoExpenses;
+import com.example.portalparlamentar.models.DeputadoDespesas;
 import com.example.portalparlamentar.repositories.impl.DeputadoRepositoryImpl;
 import com.example.portalparlamentar.services.DeputadoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,12 +22,12 @@ public class DeputadoServiceImpl implements DeputadoService {
     }
 
     @Override
-    public Deputado getDeputado(Integer idDeputado) {
-        return repository.getDeputado(idDeputado);
+    public Deputado recuperarDeputado(Integer idDeputado) {
+        return repository.recuperarDeputado(idDeputado);
     }
 
     @Override
-    public List<DeputadoExpenses> getExpensesDeputados(Integer idDeputado) throws JsonProcessingException {
-        return repository.getExpensesDeputados(idDeputado);
+    public List<DeputadoDespesas> recuperarDespesasDoDeputado(Integer idDeputado) throws JsonProcessingException {
+        return repository.recuperarDespesasDoDeputado(idDeputado);
     }
 }
