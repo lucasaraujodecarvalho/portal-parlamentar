@@ -2,6 +2,7 @@ package com.example.portalparlamentar.controller;
 
 import com.example.portalparlamentar.models.Deputado;
 import com.example.portalparlamentar.models.DeputadoDespesas;
+import com.example.portalparlamentar.models.Eventos;
 import com.example.portalparlamentar.services.DeputadoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,9 @@ public class DeputadoController {
         return ResponseEntity.ok().body(deputadoDespesas);
     }
 
+    @GetMapping("/eventos-deputado/{id}")
+    public ResponseEntity<List<Eventos>> listarEventosParticipacaoParlamentar(@PathVariable("id")Integer idDeputado) throws JsonProcessingException {
+        List<Eventos> eventos = deputadoService.listarEventosParticipacaoParlamentar(idDeputado);
+        return ResponseEntity.ok().body(eventos);
+    }
 }

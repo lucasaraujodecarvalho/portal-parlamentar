@@ -16,7 +16,7 @@ public class Eventos {
     private String descricao;
     private String descricaoTipo;
     private Integer id;
-    private List<LocalCamara> localCamaras;
+    private LocalCamara localCamara;
     private String localExterno;
     private List<Orgao> orgaos;
     private String situacao;

@@ -2,6 +2,7 @@ package com.example.portalparlamentar.services.impl;
 
 import com.example.portalparlamentar.models.Deputado;
 import com.example.portalparlamentar.models.DeputadoDespesas;
+import com.example.portalparlamentar.models.Eventos;
 import com.example.portalparlamentar.repositories.impl.DeputadoRepositoryImpl;
 import com.example.portalparlamentar.services.DeputadoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,5 +30,10 @@ public class DeputadoServiceImpl implements DeputadoService {
     @Override
     public List<DeputadoDespesas> recuperarDespesasDoDeputado(Integer idDeputado) throws JsonProcessingException {
         return repository.recuperarDespesasDoDeputado(idDeputado);
+    }
+
+    @Override
+    public List<Eventos> listarEventosParticipacaoParlamentar(Integer idDeputado) throws JsonProcessingException {
+        return repository.listarEventosParticipacaoParlamentar(idDeputado);
     }
 }
