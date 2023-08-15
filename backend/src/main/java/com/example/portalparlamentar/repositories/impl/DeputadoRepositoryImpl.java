@@ -4,14 +4,17 @@ import com.example.portalparlamentar.models.Deputado;
 import com.example.portalparlamentar.models.DeputadoDespesas;
 import com.example.portalparlamentar.models.Eventos;
 import com.example.portalparlamentar.repositories.DeputadoRepository;
+import com.example.portalparlamentar.utils.JsonParserUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,24 +22,26 @@ import java.util.Map;
 @Repository
 public class DeputadoRepositoryImpl implements DeputadoRepository {
 
-    private static final String ENDPOINT_URL = "https://dadosabertos.camara.leg.br/api/v2/";
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    public List<Deputado> listDeputados() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        RestTemplate restTemplate = new RestTemplate();
-        //        ResponseEntity<Deputado> dep = restTemplate.getForEntity(ENDPOINT_URL + "deputados", Deputado.class);
-        ResponseEntity<String> respostaApi = restTemplate.getForEntity(ENDPOINT_URL + "deputados", String.class);
-        JsonNode jsonNode = objectMapper.readTree(respostaApi.getBody());
-        String json = String.valueOf(jsonNode.get("dados"));
+    private static final String ENDPOINT_URL = "https://dadosabertos.camara.leg.br/api/v2/deputados";
 
-        return objectMapper.readValue(json, new TypeReference<>() {});
-
-//        return List.of(objectMapper.readValue(json, Deputado[].class));
+    public List<Deputado> listDeputados() {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> respostaApi = restTemplate.getForEntity(ENDPOINT_URL, String.class);
+            JsonNode jsonNode = JsonParserUtils.readTree(respostaApi.getBody());
+            String json = String.valueOf(jsonNode.get("dados"));
+            return JsonParserUtils.arrayList(json, Deputado.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Deputado recuperarDeputado(Integer idDeputado) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = ENDPOINT_URL + "deputados" + "/{id}";
+        String url = ENDPOINT_URL + "/{id}";
         Map<String, Integer> uriParams = new HashMap<>();
         uriParams.put("id", idDeputado);
         //TODO ajustar o mapeamento da entidade
@@ -46,9 +51,8 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
 
     @Override
     public List<DeputadoDespesas> recuperarDespesasDoDeputado(Integer idDeputado) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
-        String url = ENDPOINT_URL + "deputados/{id}/despesas";
+        String url = ENDPOINT_URL + "/{id}/despesas";
         Map<String, Integer> uriParams = new HashMap<>();
         uriParams.put("id", idDeputado);
         ResponseEntity<String> respostaApi = restTemplate.getForEntity(url, String.class, uriParams);
@@ -59,9 +63,8 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
 
     @Override
     public List<Eventos> listarEventosParticipacaoParlamentar(Integer idDeputado) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         RestTemplate restTemplate = new RestTemplate();
-        String url = ENDPOINT_URL + "deputados/{id}/eventos";
+        String url = ENDPOINT_URL + "/{id}/eventos";
         Map<String, Integer> uriParams = new HashMap<>();
         uriParams.put("id", idDeputado);
         ResponseEntity<String> respostaApi = restTemplate.getForEntity(url, String.class, uriParams);
