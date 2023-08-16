@@ -18,7 +18,7 @@ public class DeputadoServiceImpl implements DeputadoService {
     private DeputadoRepositoryImpl repository;
 
     @Override
-    public List<Deputado> listDeputados() throws JsonProcessingException {
+    public List<Deputado> listDeputados() {
         return repository.listDeputados();
     }
 

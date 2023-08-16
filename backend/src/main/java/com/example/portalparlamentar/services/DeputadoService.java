@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DeputadoService {
 
-    List<Deputado> listDeputados() throws JsonProcessingException;
+    List<Deputado> listDeputados();
 
     Deputado recuperarDeputado(Integer idDeputado);
 

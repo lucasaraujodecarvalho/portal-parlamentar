@@ -22,7 +22,7 @@ public class DeputadoController {
     private DeputadoService deputadoService;
 
     @GetMapping("/lista-deputados")
-    public ResponseEntity<List<Deputado>> listaDeputados() throws JsonProcessingException {
+    public ResponseEntity<List<Deputado>> listaDeputados() {
         List<Deputado> deputado = deputadoService.listDeputados();
         return ResponseEntity.ok().body(deputado);
     }
