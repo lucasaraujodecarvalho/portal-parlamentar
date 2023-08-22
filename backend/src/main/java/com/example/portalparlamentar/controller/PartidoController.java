@@ -1,11 +1,13 @@
 package com.example.portalparlamentar.controller;
 
 import com.example.portalparlamentar.models.Partido;
+import com.example.portalparlamentar.models.ResultadoPartidosID;
 import com.example.portalparlamentar.services.PartidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -21,5 +23,11 @@ public class PartidoController {
     public ResponseEntity<List<Partido>> listaPartidos() {
         List<Partido> partidos = partidoService.listarPartidos();
         return ResponseEntity.ok().body(partidos);
+    }
+
+    @GetMapping("/detalhar-partido/{id}")
+    public ResponseEntity<ResultadoPartidosID> detalharPartido(@PathVariable Integer id) {
+        ResultadoPartidosID partido = partidoService.detalharPartido(id);
+        return ResponseEntity.ok().body(partido);
     }
 }
