@@ -1,7 +1,7 @@
 package com.example.portalparlamentar.repositories;
 
-import com.example.portalparlamentar.models.Partido;
-import com.example.portalparlamentar.models.ResultadoPartidosID;
+import com.example.portalparlamentar.domain.Partido;
+import com.example.portalparlamentar.domain.ResultadoPartidosID;
 
 import java.util.List;
 

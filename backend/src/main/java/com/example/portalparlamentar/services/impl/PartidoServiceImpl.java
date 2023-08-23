@@ -1,7 +1,7 @@
 package com.example.portalparlamentar.services.impl;
 
-import com.example.portalparlamentar.models.Partido;
-import com.example.portalparlamentar.models.ResultadoPartidosID;
+import com.example.portalparlamentar.domain.Partido;
+import com.example.portalparlamentar.domain.ResultadoPartidosID;
 import com.example.portalparlamentar.repositories.PartidoRepository;
 import com.example.portalparlamentar.services.PartidoService;
 import org.springframework.beans.factory.annotation.Autowired;

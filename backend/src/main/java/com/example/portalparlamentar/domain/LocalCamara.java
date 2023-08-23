@@ -1,4 +1,4 @@
-package com.example.portalparlamentar.models;
+package com.example.portalparlamentar.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

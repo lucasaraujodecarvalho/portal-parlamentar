@@ -1,8 +1,8 @@
 package com.example.portalparlamentar.services;
 
-import com.example.portalparlamentar.models.Deputado;
-import com.example.portalparlamentar.models.DeputadoDespesas;
-import com.example.portalparlamentar.models.Eventos;
+import com.example.portalparlamentar.domain.Deputado;
+import com.example.portalparlamentar.domain.DeputadoDespesas;
+import com.example.portalparlamentar.domain.Eventos;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
