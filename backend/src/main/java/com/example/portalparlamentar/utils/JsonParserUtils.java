@@ -38,8 +38,7 @@ public class JsonParserUtils {
      * @throws IOException em caso de erro ao fazer o parse
      */
     public static <T> List<T> list(String json, Class<T> tClass) throws IOException {
-        JsonNode jsonNode = objectMapper.readTree(json);
-        JsonNode dadosNode = jsonNode.get("dados");
+        JsonNode dadosNode = objectMapper.readTree(json).get("dados");
         JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, tClass);
         return objectMapper.readValue(dadosNode.toString(), javaType);
     }
