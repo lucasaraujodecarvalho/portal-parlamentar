@@ -3,74 +3,66 @@ package com.example.portalparlamentar.utils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class JsonParserUtils {
 
-    private static ObjectMapper objectMapper;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Cria um {@link ObjectMapper} para mapear objetos json.
-     *
-     * @return created {@link ObjectMapper}
-     */
-    private static ObjectMapper getMapper() {
-        if (objectMapper == null) {
-            objectMapper = new ObjectMapper();
-        }
-        return objectMapper;
+    private JsonParserUtils() {
+        // Construtor privado, não permitindo instanciamento
     }
 
     /**
-     * Mapeia a string json para a classe especificada
+     * Mapeia a string JSON para a classe especificada
      *
-     * @param json   string to parse
-     * @param tClass class of object in which json will be parsed
-     * @param <T>    generic parameter for tClass
-     * @return mapped T class instance
-     * @throws IOException
+     * @param json   string a ser mapeada
+     * @param tClass classe de destino
+     * @param <T>    tipo da classe
+     * @return objeto mapeado da classe especificada
+     * @throws IOException em caso de erro ao fazer o parse
      */
     public static <T> T entity(String json, Class<T> tClass) throws IOException {
-        return getMapper().readValue(json, tClass);
+        return objectMapper.readValue(json, tClass);
     }
 
     /**
-     * Mapeia string json para {@link ArrayList} de instâncias de objeto de classe especificadas
+     * Mapeia a string JSON para uma lista do tipo especificado
      *
-     * @param json   string to parse
-     * @param tClass class of object in which json will be parsed
-     * @param <T>    generic parameter for tClass
-     * @return mapped T class instance
-     * @throws IOException
+     * @param json   string a ser mapeada
+     * @param tClass classe do objeto na lista
+     * @param <T>    tipo da classe
+     * @return lista de objetos mapeados
+     * @throws IOException em caso de erro ao fazer o parse
      */
-    public static <T> ArrayList<T> arrayList(String json, Class<T> tClass) throws IOException {
-        TypeFactory typeFactory = getMapper().getTypeFactory();
-        JavaType type = typeFactory.constructCollectionType(ArrayList.class, tClass);
-        return getMapper().readValue(json, type);
+    public static <T> List<T> list(String json, Class<T> tClass) throws IOException {
+        JsonNode jsonNode = objectMapper.readTree(json);
+        JsonNode dadosNode = jsonNode.get("dados");
+        JavaType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, tClass);
+        return objectMapper.readValue(dadosNode.toString(), javaType);
     }
 
     /**
-     * Grava o objeto especificado como string
+     * Lê o conteúdo JSON e retorna o nó raiz
      *
-     * @param object object to write
-     * @return result json
-     * @throws IOException
-     */
-    public static String toJson(Object object) throws IOException {
-        return getMapper().writeValueAsString(object);
-    }
-
-    /**
-     * Obter o nó da raiz json
-     *
-     * @param content
-     * @return
-     * @throws IOException
+     * @param content string JSON a ser lida
+     * @return nó raiz do JSON
+     * @throws IOException em caso de erro ao ler o JSON
      */
     public static JsonNode readTree(String content) throws IOException {
-        return getMapper().readTree(content);
+        return objectMapper.readTree(content);
+    }
+
+    /**
+     * Converte um objeto para sua representação JSON como string
+     *
+     * @param object objeto a ser convertido
+     * @return string JSON
+     * @throws IOException em caso de erro ao converter
+     */
+    public static String toJson(Object object) throws IOException {
+        return objectMapper.writeValueAsString(object);
     }
 }
