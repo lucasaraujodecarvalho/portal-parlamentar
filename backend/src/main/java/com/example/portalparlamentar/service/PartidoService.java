@@ -1,4 +1,4 @@
-package com.example.portalparlamentar.services;
+package com.example.portalparlamentar.service;
 
 import com.example.portalparlamentar.domain.Partido;
 import com.example.portalparlamentar.domain.ResultadoPartidosID;

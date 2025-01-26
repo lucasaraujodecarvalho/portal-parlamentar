@@ -1,8 +1,8 @@
-package com.example.portalparlamentar.repositories.impl;
+package com.example.portalparlamentar.repository.impl;
 
 import com.example.portalparlamentar.domain.Partido;
 import com.example.portalparlamentar.domain.ResultadoPartidosID;
-import com.example.portalparlamentar.repositories.PartidoRepository;
+import com.example.portalparlamentar.repository.PartidoRepository;
 import com.example.portalparlamentar.utils.JsonParserUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +32,7 @@ public class PartidoRepositoryImpl implements PartidoRepository {
             ResponseEntity<String> respostaApi = restTemplate.getForEntity(ENDPOINT_URL, String.class);
             JsonNode jsonNode = JsonParserUtils.readTree(respostaApi.getBody());
             String json = String.valueOf(jsonNode.get("dados"));
-            return JsonParserUtils.arrayList(json, Partido.class);
+            return JsonParserUtils.list(json, Partido.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

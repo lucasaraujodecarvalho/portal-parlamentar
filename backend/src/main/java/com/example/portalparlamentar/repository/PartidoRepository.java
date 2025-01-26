@@ -1,4 +1,4 @@
-package com.example.portalparlamentar.repositories;
+package com.example.portalparlamentar.repository;
 
 import com.example.portalparlamentar.domain.Partido;
 import com.example.portalparlamentar.domain.ResultadoPartidosID;
