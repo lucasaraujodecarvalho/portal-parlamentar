@@ -25,7 +25,8 @@ public class JsonParserUtils {
      * @throws IOException em caso de erro ao fazer o parse
      */
     public static <T> T entity(String json, Class<T> tClass) throws IOException {
-        return objectMapper.readValue(json, tClass);
+        JsonNode dadosNode = objectMapper.readTree(json).get("dados");
+        return objectMapper.readValue(dadosNode.toString(), tClass);
     }
 
     /**

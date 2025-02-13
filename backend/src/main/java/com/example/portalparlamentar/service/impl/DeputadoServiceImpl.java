@@ -1,8 +1,9 @@
 package com.example.portalparlamentar.service.impl;
 
-import com.example.portalparlamentar.dto.DeputadoDTO;
+import com.example.portalparlamentar.dto.deputados.DeputadoDTO;
 import com.example.portalparlamentar.domain.DeputadoDespesas;
 import com.example.portalparlamentar.domain.Eventos;
+import com.example.portalparlamentar.dto.deputados.InformacoesDeputadoDTO;
 import com.example.portalparlamentar.repository.impl.DeputadoRepositoryImpl;
 import com.example.portalparlamentar.service.DeputadoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +24,7 @@ public class DeputadoServiceImpl implements DeputadoService {
     }
 
     @Override
-    public DeputadoDTO obterDeputado(Integer idDeputado) {
+    public InformacoesDeputadoDTO obterDeputado(Integer idDeputado) {
         return repository.obterDeputado(idDeputado);
     }
 

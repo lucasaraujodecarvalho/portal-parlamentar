@@ -3,7 +3,8 @@ package com.example.portalparlamentar.repository.impl;
 import com.example.portalparlamentar.config.ApiConfig;
 import com.example.portalparlamentar.domain.DeputadoDespesas;
 import com.example.portalparlamentar.domain.Eventos;
-import com.example.portalparlamentar.dto.DeputadoDTO;
+import com.example.portalparlamentar.dto.deputados.DeputadoDTO;
+import com.example.portalparlamentar.dto.deputados.InformacoesDeputadoDTO;
 import com.example.portalparlamentar.exception.ResourceNotFoundException;
 import com.example.portalparlamentar.repository.DeputadoRepository;
 import com.example.portalparlamentar.utils.JsonParserUtils;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -51,14 +53,23 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
         }
     }
 
-    public DeputadoDTO obterDeputado(Integer idDeputado) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = ENDPOINT_URL + "/{id}";
+    public InformacoesDeputadoDTO obterDeputado(Integer idDeputado) {
+        String endpointUrl = apiConfig.getCamaraBaseUrl() + "/deputados/{id}";
         Map<String, Integer> uriParams = new HashMap<>();
         uriParams.put("id", idDeputado);
-        //TODO ajustar o mapeamento da entidade
-        ResponseEntity<DeputadoDTO> dep = restTemplate.getForEntity(url, DeputadoDTO.class, uriParams);
-        return dep.getBody();
+        ResponseEntity<String> respostaApi = restTemplate.exchange(
+                endpointUrl,
+                HttpMethod.GET,
+                null,
+                String.class,
+                uriParams
+        );
+
+        try {
+            return JsonParserUtils.entity(respostaApi.getBody(), InformacoesDeputadoDTO.class);
+        } catch (IOException e) {
+            throw new ResourceNotFoundException("Deputados não encontrados", e);
+        }
     }
 
     @Override

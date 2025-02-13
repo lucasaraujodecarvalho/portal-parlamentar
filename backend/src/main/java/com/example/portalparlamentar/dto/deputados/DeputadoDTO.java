@@ -1,4 +1,4 @@
-package com.example.portalparlamentar.dto;
+package com.example.portalparlamentar.dto.deputados;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
