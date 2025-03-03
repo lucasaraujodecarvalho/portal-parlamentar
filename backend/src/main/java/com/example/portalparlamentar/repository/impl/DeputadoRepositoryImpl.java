@@ -68,7 +68,7 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
         try {
             return JsonParserUtils.entity(respostaApi.getBody(), InformacoesDeputadoDTO.class);
         } catch (IOException e) {
-            throw new ResourceNotFoundException("Deputados não encontrados", e);
+            throw new ResourceNotFoundException("Deputado não encontrado", e);
         }
     }
 
