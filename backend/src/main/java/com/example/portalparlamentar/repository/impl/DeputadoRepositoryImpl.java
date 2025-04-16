@@ -5,6 +5,7 @@ import com.example.portalparlamentar.domain.DeputadoDespesas;
 import com.example.portalparlamentar.domain.Eventos;
 import com.example.portalparlamentar.dto.deputados.DeputadoDTO;
 import com.example.portalparlamentar.dto.deputados.InformacoesDeputadoDTO;
+import com.example.portalparlamentar.exception.NegocioException;
 import com.example.portalparlamentar.exception.ResourceNotFoundException;
 import com.example.portalparlamentar.repository.DeputadoRepository;
 import com.example.portalparlamentar.utils.JsonParserUtils;
@@ -14,10 +15,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,6 +34,9 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
     private RestTemplate restTemplate;
 
     @Autowired
+    private WebClient.Builder webClientBuilder;
+
+    @Autowired
     private ApiConfig apiConfig;
 
     @Autowired
@@ -39,15 +45,19 @@ public class DeputadoRepositoryImpl implements DeputadoRepository {
     private static final String ENDPOINT_URL = "https://dadosabertos.camara.leg.br/api/v2/deputados";
 
     public List<DeputadoDTO> listarDeputados() {
-        String endpointUrl = apiConfig.getCamaraBaseUrl() + "/deputados";
-        ResponseEntity<String> respostaApi = restTemplate.exchange(
-                endpointUrl,
-                HttpMethod.GET,
-                null,
-                String.class
-        );
+        String resposta = webClientBuilder.baseUrl(ENDPOINT_URL)
+                .build()
+                .get()
+                .uri("/deputados")
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
+                        Mono.error(new NegocioException("Erro ao listar deputados")))
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
+                        Mono.error(new Exception("Erro interno no servidor. Tente novamente mais tarde.")))
+                .bodyToMono(String.class)
+                .block();
         try {
-            return JsonParserUtils.list(respostaApi.getBody(), DeputadoDTO.class);
+            return JsonParserUtils.list(resposta, DeputadoDTO.class);
         } catch (IOException e) {
             throw new ResourceNotFoundException("Deputados não encontrados", e);
         }
